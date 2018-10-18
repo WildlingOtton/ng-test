@@ -4,7 +4,13 @@
 
 In the ng-test root directory
 
-```
-npm install
-npm run start
-```
+```npm install```
+
+
+To run the application
+
+```npm run start```
+
+To test the application
+
+```npm test```
