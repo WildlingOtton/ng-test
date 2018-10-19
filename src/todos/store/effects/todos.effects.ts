@@ -14,7 +14,7 @@ export class TodosEffects {
     switchMap(() => {
       return this.todosService.getTodos().pipe(
         map(todos => new todosActions.LoadTodosSuccess(todos)),
-        catchError(error => of(new todosActions.LoadTodosFail(error)))
+        catchError(error => of(new todosActions.LoadTodosFail({ error })))
       );
     })
   );
@@ -25,7 +25,7 @@ export class TodosEffects {
     switchMap(todo => {
       return this.todosService.createTodo(todo).pipe(
         map(newTodo => new todosActions.CreateTodoSuccess(newTodo)),
-        catchError(error => of(new todosActions.CreateTodoFail(error)))
+        catchError(error => of(new todosActions.CreateTodoFail({ error })))
       );
     })
   );

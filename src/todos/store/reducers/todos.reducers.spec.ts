@@ -13,40 +13,62 @@ describe('TodosReducer', () => {
     });
   });
 
-  describe('LOAD_TODOS actions', () => {
-    const { initialState } = todosReducers;
-    const action = new todosActions.LoadTodos();
-    const state = todosReducers.todosReducer(initialState, action);
+  describe('Loading Todos', () => {
+    describe('LOAD_TODOS action', () => {
+      const { initialState } = todosReducers;
+      const action = new todosActions.LoadTodos();
+      const state = todosReducers.todosReducer(initialState, action);
 
-    test('should return the initialState', () => {
-      expect(state).toEqual({
-        todos: []
+      test('should return the initialState', () => {
+        expect(state).toEqual({
+          todos: []
+        });
+      });
+    });
+
+    describe('LOAD_TODOS_SUCCESS action', () => {
+      test('should return array of todos', () => {
+        const todos: Todo[] = [
+          { id: 1, description: 'Todo #1', completed: false },
+          { id: 2, description: 'Todo #2', completed: true }
+        ];
+
+        const { initialState } = todosReducers;
+        const action = new todosActions.LoadTodosSuccess(todos);
+        const state = todosReducers.todosReducer(initialState, action);
+
+        expect(state.todos).toEqual(todos);
+      });
+    });
+
+    describe('LOAD_SUCCESS_FAIL action', () => {
+      test('should return return the initial state', () => {
+        const { initialState } = todosReducers;
+        const action = new todosActions.LoadTodosFail({});
+        const state = todosReducers.todosReducer(initialState, action);
+
+        expect(state).toEqual(initialState);
       });
     });
   });
 
-  describe('LOAD_TODOS_SUCCESS action', () => {
-    test('should return array of todos', () => {
-      const todos: Todo[] = [
-        { id: 1, description: 'Todo #1', completed: false },
-        { id: 2, description: 'Todo #2', completed: true }
-      ];
+  describe('Creating Todos', () => {
+    describe('CREATE_TODO_SUCCESS action', () => {
+      test('should add new todo to the todos array', () => {
+        const todos = [
+          { id: 1, description: 'Todo #1', completed: false },
+          { id: 2, description: 'Todo #2', completed: true }
+        ];
 
-      const { initialState } = todosReducers;
-      const action = new todosActions.LoadTodosSuccess(todos);
-      const state = todosReducers.todosReducer(initialState, action);
+        const newTodo = { description: 'New Todo #1', completed: false };
 
-      expect(state.todos).toEqual(todos);
-    });
-  });
+        const { initialState } = todosReducers;
+        const previousState = { ...initialState, todos };
+        const action = new todosActions.CreateTodoSuccess(newTodo);
+        const state = todosReducers.todosReducer(previousState, action);
 
-  describe('LOAD_SUCCESS_FAIL', () => {
-    test('should return return the initial state', () => {
-      const { initialState } = todosReducers;
-      const action = new todosActions.LoadTodosFail({});
-      const state = todosReducers.todosReducer(initialState, action);
-
-      expect(state).toEqual(initialState);
+        expect(state.todos).toEqual([...todos, newTodo]);
+      });
     });
   });
 });
