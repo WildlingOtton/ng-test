@@ -45,4 +45,27 @@ describe('TodosService', () => {
       expect(http.post).toHaveBeenCalledWith(service.baseUrl, newTodo);
     });
   });
+
+  describe('updateTodo', () => {
+    test('should update an existing Todo', () => {
+      const existingTodo = {
+        id: 1,
+        description: 'Existing Todo #1',
+        completed: false
+      };
+      const updatedTodo = {
+        id: 1,
+        description: 'Updated Todo #1',
+        completed: true
+      };
+      const expected = cold('-a|', { a: updatedTodo });
+      http.put = jest.fn(() => expected);
+
+      expect(service.updateTodo(existingTodo)).toBeObservable(expected);
+      expect(http.put).toHaveBeenCalledWith(
+        `${service.baseUrl}/${existingTodo.id}`,
+        existingTodo
+      );
+    });
+  });
 });
