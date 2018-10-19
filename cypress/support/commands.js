@@ -23,3 +23,12 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('createTodo', (description = 'Newly Created Todo') => {
+  cy.request('POST', '/todos', { description, completd: false });
+});
+
+Cypress.Commands.add('resetDb', () => {
+  cy.request('POST', '/reset');
+});
+
