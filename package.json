@@ -9,7 +9,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:cypress": "cypress open",
+    "test:integration": "cypress open",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start:server:mock": "json-server json-server.js --watch",
