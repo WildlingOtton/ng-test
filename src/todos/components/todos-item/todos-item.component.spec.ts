@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { MaterialModule } from '@material/material.module';
 import { TodosItemComponent } from './todos-item.component';
 import * as todosReducers from '@todos/store/reducers/todos.reducers';
-import { UpdateTodo } from '@todos/store/actions/todos.actions';
+import { UpdateTodo, RemoveTodo } from '@todos/store/actions/todos.actions';
 
 describe('TodosItemComponent', () => {
   let component: TodosItemComponent;
@@ -41,6 +41,16 @@ describe('TodosItemComponent', () => {
     const checkboxEl = checkboxDe.nativeElement as HTMLInputElement;
 
     checkboxEl.click();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  test('should dispatch UpdateTodo on trashcan click', () => {
+    const action = new RemoveTodo(todo);
+    const removeButtonDe = fixture.debugElement.query(By.css('.remove'));
+    const removeButtonEl = removeButtonDe.nativeElement as HTMLInputElement;
+
+    removeButtonEl.click();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
