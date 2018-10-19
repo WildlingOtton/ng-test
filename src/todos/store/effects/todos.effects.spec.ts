@@ -1,9 +1,7 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
-import { Actions } from '@ngrx/effects';
 import { hot, cold } from 'jasmine-marbles';
-import { empty, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { TodosService } from '@todos/services/todos.service';
 import { TodosEffects } from '@todos/store/effects/todos.effects';
@@ -16,9 +14,11 @@ import {
   CreateTodoFail,
   UpdateTodo,
   UpdateTodoSuccess,
-  UpdateTodoFail
+  UpdateTodoFail,
+  RemoveTodo,
+  RemoveTodoSuccess,
+  RemoveTodoFail
 } from '@todos/store/actions/todos.actions';
-import { create } from 'domain';
 
 describe('TodosEffects', () => {
   let actions: Observable<any>;
@@ -105,7 +105,7 @@ describe('TodosEffects', () => {
     });
   });
 
-  describe('updateTodos$', () => {
+  describe('updateTodo$', () => {
     test('should return an UpdateTodoSuccess action, with updated todo, on success', () => {
       const existingTodo = {
         id: 1,
@@ -145,5 +145,43 @@ describe('TodosEffects', () => {
 
       expect(effects.updateTodo$).toBeObservable(expected);
     });
+  });
+
+  describe('removeTodos$', () => {
+    test('should return an RemoveTodoSuccess action, with removed todo, on success', () => {
+      const removedTodo = {
+        id: 1,
+        description: 'Remove Todo #1',
+        completed: false
+      };
+
+      const action = new RemoveTodo(removedTodo);
+      const outcome = new RemoveTodoSuccess(removedTodo);
+
+      actions = hot('-a', { a: action });
+      const response = cold('-a|', { a: removedTodo });
+      const expected = cold('--b', { b: outcome });
+      todosService.removeTodo = jest.fn(() => response);
+
+      expect(effects.removeTodo$).toBeObservable(expected);
+    });
+  });
+
+  test('should return an RemoveTodoFail action, with an error, on failure', () => {
+    const removedTodo = {
+      id: 1,
+      description: 'Remove Todo #1',
+      completed: false
+    };
+    const action = new RemoveTodo(removedTodo);
+    const error = new Error();
+    const outcome = new RemoveTodoFail({ error });
+
+    actions = hot('-a', { a: action });
+    const response = cold('-#|', {}, error);
+    const expected = cold('--(b)', { b: outcome });
+    todosService.removeTodo = jest.fn(() => response);
+
+    expect(effects.removeTodo$).toBeObservable(expected);
   });
 });

@@ -42,12 +42,12 @@ export class TodosEffects {
   );
 
   @Effect()
-  removedTodo$ = this.actions$.ofType(todosActions.REMOVE_TODO).pipe(
+  removeTodo$ = this.actions$.ofType(todosActions.REMOVE_TODO).pipe(
     map((action: todosActions.RemoveTodo) => action.payload),
     switchMap(todo => {
       return this.todosService.removeTodo(todo).pipe(
         map(() => new todosActions.RemoveTodoSuccess(todo)),
-        catchError(error => of(new todosActions.RemoveTodoFail(error)))
+        catchError(error => of(new todosActions.RemoveTodoFail({ error })))
       );
     })
   );

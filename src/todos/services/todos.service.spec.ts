@@ -68,4 +68,20 @@ describe('TodosService', () => {
       );
     });
   });
+
+  describe('removeTodo', () => {
+    test('should create a new Todo', () => {
+      const removedTodo = {
+        id: 1,
+        description: 'Remove Todo #1',
+        completed: false
+      };
+      const expected = cold('-a|', { a: removedTodo });
+      http.delete = jest.fn(() => expected);
+      expect(service.removeTodo(removedTodo)).toBeObservable(expected);
+      expect(http.delete).toHaveBeenCalledWith(
+        `${service.baseUrl}/${removedTodo.id}`
+      );
+    });
+  });
 });

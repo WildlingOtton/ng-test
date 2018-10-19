@@ -100,4 +100,25 @@ describe('TodosReducer', () => {
       });
     });
   });
+
+  describe('Removing Todos', () => {
+    describe('REMOVE_TODO_SUCCESS action', () => {
+      test('should add new todo to the todos array', () => {
+        const todoToRemove = {
+          id: 1,
+          description: 'Todo #1',
+          completed: false
+        };
+        const todoToKeep = { id: 2, description: 'Todo #2', completed: true };
+        const todos = [todoToRemove, todoToKeep];
+
+        const { initialState } = todosReducers;
+        const previousState = { ...initialState, todos };
+        const action = new todosActions.RemoveTodoSuccess(todoToRemove);
+        const state = todosReducers.todosReducer(previousState, action);
+
+        expect(state.todos).toEqual([todoToKeep]);
+      });
+    });
+  });
 });
