@@ -47,7 +47,7 @@ describe('Todos Actions', () => {
   describe('Create Todos Actions', () => {
     describe('CreateTodo', () => {
       test('should create an action', () => {
-        const payload = { description: 'New Todo #', completed: false };
+        const payload = { description: 'New Todo #1', completed: false };
         const action = new todosActions.CreateTodo(payload);
 
         expect({ ...action }).toEqual({
@@ -59,7 +59,7 @@ describe('Todos Actions', () => {
 
     describe('CreateTodoSuccess', () => {
       test('should create an action', () => {
-        const payload = { id: 1, description: 'New Todo #', completed: false };
+        const payload = { id: 1, description: 'New Todo #1', completed: false };
         const action = new todosActions.CreateTodoSuccess(payload);
 
         expect({ ...action }).toEqual({
@@ -76,6 +76,52 @@ describe('Todos Actions', () => {
 
         expect({ ...action }).toEqual({
           type: todosActions.CREATE_TODO_FAIL,
+          payload
+        });
+      });
+    });
+  });
+
+  describe('Update Todos Actions', () => {
+    describe('UpdateTodo', () => {
+      test('should create an action', () => {
+        const payload = {
+          id: 1,
+          description: 'Update Todo #1',
+          completed: false
+        };
+        const action = new todosActions.UpdateTodo(payload);
+
+        expect({ ...action }).toEqual({
+          type: todosActions.UPDATE_TODO,
+          payload
+        });
+      });
+    });
+
+    describe('UpdateTodoSuccess', () => {
+      test('should update an action', () => {
+        const payload = {
+          id: 1,
+          description: 'Updated Todo #1',
+          completed: false
+        };
+        const action = new todosActions.UpdateTodoSuccess(payload);
+
+        expect({ ...action }).toEqual({
+          type: todosActions.UPDATE_TODO_SUCCESS,
+          payload
+        });
+      });
+    });
+
+    describe('UpdateTodoFail', () => {
+      test('should update an action', () => {
+        const payload = { message: 'UpdateTodoFail Error Message' };
+        const action = new todosActions.UpdateTodoFail(payload);
+
+        expect({ ...action }).toEqual({
+          type: todosActions.UPDATE_TODO_FAIL,
           payload
         });
       });
