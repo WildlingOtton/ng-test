@@ -1,5 +1,5 @@
 <mat-list-item class="todos-list-item" [class.completed]="todo.completed">
-  <mat-checkbox class="description" [checked]="todo.completed" (click)="toggleComplete()">{{ todo.description }}</mat-checkbox>
+  <mat-checkbox class="description toggle-completed" [checked]="todo.completed" (click)="toggleComplete()">{{ todo.description }}</mat-checkbox>
   <button mat-icon-button class="remove" (click)="removeTodo()">
     <mat-icon class="icon">delete</mat-icon>
   </button>
