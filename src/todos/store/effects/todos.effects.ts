@@ -31,18 +31,18 @@ export class TodosEffects {
   );
 
   @Effect()
-  updatePizza$ = this.actions$.ofType(todosActions.UPDATE_TODO).pipe(
+  updateTodo$ = this.actions$.ofType(todosActions.UPDATE_TODO).pipe(
     map((action: todosActions.UpdateTodo) => action.payload),
     switchMap(todo => {
       return this.todosService.updateTodo(todo).pipe(
-        map(updatedPizza => new todosActions.UpdateTodoSuccess(updatedPizza)),
-        catchError(error => of(new todosActions.UpdateTodoFail(error)))
+        map(updatedTodo => new todosActions.UpdateTodoSuccess(updatedTodo)),
+        catchError(error => of(new todosActions.UpdateTodoFail({ error })))
       );
     })
   );
 
   @Effect()
-  removedPizza$ = this.actions$.ofType(todosActions.REMOVE_TODO).pipe(
+  removedTodo$ = this.actions$.ofType(todosActions.REMOVE_TODO).pipe(
     map((action: todosActions.RemoveTodo) => action.payload),
     switchMap(todo => {
       return this.todosService.removeTodo(todo).pipe(
