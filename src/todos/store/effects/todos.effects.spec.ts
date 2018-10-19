@@ -10,8 +10,12 @@ import { TodosEffects } from '@todos/store/effects/todos.effects';
 import {
   LoadTodos,
   LoadTodosSuccess,
-  LoadTodosFail
+  LoadTodosFail,
+  CreateTodo,
+  CreateTodoSuccess,
+  CreateTodoFail
 } from '@todos/store/actions/todos.actions';
+import { create } from 'domain';
 
 describe('TodosEffects', () => {
   let actions: Observable<any>;
@@ -57,7 +61,7 @@ describe('TodosEffects', () => {
     test('should return a LoadTodosFail action with error message on failure', () => {
       const action = new LoadTodos();
       const error = new Error();
-      const outcome = new LoadTodosFail(error);
+      const outcome = new LoadTodosFail({ error });
 
       actions = hot('-a', { a: action });
       const response = cold('-#|', {}, error);
@@ -65,6 +69,36 @@ describe('TodosEffects', () => {
       todosService.getTodos = jest.fn(() => response);
 
       expect(effects.loadTodos$).toBeObservable(expected);
+    });
+  });
+
+  describe('createTodos$', () => {
+    test('should return an CreateTodoSuccess action, with todo, on success', () => {
+      const newTodo = { description: 'New Todo #1', completed: false };
+      const createdTodo = { ...newTodo, id: 1 };
+      const action = new CreateTodo(newTodo);
+      const outcome = new CreateTodoSuccess(createdTodo);
+
+      actions = hot('-a', { a: action });
+      const response = cold('-a|', { a: createdTodo });
+      const expected = cold('--b', { b: outcome });
+      todosService.createTodo = jest.fn(() => response);
+
+      expect(effects.createTodo$).toBeObservable(expected);
+    });
+
+    test('should return an CreateTodoFail action, with an error, on failure', () => {
+      const newTodo = { description: 'New Todo #1', completed: false };
+      const action = new CreateTodo(newTodo);
+      const error = new Error();
+      const outcome = new CreateTodoFail({ error });
+
+      actions = hot('-a', { a: action });
+      const response = cold('-#|', {}, error);
+      const expected = cold('--(b)', { b: outcome });
+      todosService.createTodo = jest.fn(() => response);
+
+      expect(effects.createTodo$).toBeObservable(expected);
     });
   });
 });
