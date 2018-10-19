@@ -71,4 +71,33 @@ describe('TodosReducer', () => {
       });
     });
   });
+
+  describe('Updating Todos', () => {
+    describe('UPDATE_TODO_SUCCESS action', () => {
+      test('should add new todo to the todos array', () => {
+        const todos = [
+          { id: 1, description: 'Todo #1', completed: false },
+          { id: 2, description: 'Todo #2', completed: true }
+        ];
+
+        const updatedTodo = {
+          id: 1,
+          description: 'Updated Todo #1',
+          completed: true
+        };
+
+        const updatedTodos = [
+          updatedTodo,
+          { id: 2, description: 'Todo #2', completed: true }
+        ];
+
+        const { initialState } = todosReducers;
+        const previousState = { ...initialState, todos };
+        const action = new todosActions.UpdateTodoSuccess(updatedTodo);
+        const state = todosReducers.todosReducer(previousState, action);
+
+        expect(state.todos).toEqual(updatedTodos);
+      });
+    });
+  });
 });

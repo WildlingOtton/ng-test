@@ -3,7 +3,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@material/material.module';
 import { StoreModule, Store } from '@ngrx/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { By } from '@angular/platform-browser';
 import { TodosFormComponent } from './todos-form.component';
 import * as todosReducers from '@todos/store/reducers/todos.reducers';
 import { CreateTodo } from '@todos/store/actions/todos.actions';
