@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "concurrently --kill-others \"npm:start:server:mock\" \"npm:start:proxy\"",
+    "start:test": "concurrently --kill-others \"npm:start:server:mock:test\" \"npm:start:proxy\"",
     "build": "ng build",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -12,6 +13,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start:server:mock": "json-server json-server.js --watch",
+    "start:server:mock:test": "json-server json-test-server.js --watch --middlewares json-server-reset.js",
     "start:proxy": "ng serve --proxy-config proxy.conf.json"
   },
   "private": true,
