@@ -127,4 +127,46 @@ describe('Todos Actions', () => {
       });
     });
   });
+
+  describe('Remove Todos Actions', () => {
+    describe('RemoveTodo', () => {
+      test('should create an action', () => {
+        const payload = {
+          id: 1,
+          description: 'Remove Todo #1',
+          completed: false
+        };
+        const action = new todosActions.RemoveTodo(payload);
+
+        expect({ ...action }).toEqual({
+          type: todosActions.REMOVE_TODO,
+          payload
+        });
+      });
+    });
+
+    describe('RemoveTodoSuccess', () => {
+      test('should create an action', () => {
+        const payload = { id: 1, description: 'New Todo #1', completed: false };
+        const action = new todosActions.RemoveTodoSuccess(payload);
+
+        expect({ ...action }).toEqual({
+          type: todosActions.REMOVE_TODO_SUCCESS,
+          payload
+        });
+      });
+    });
+
+    describe('RemoveTodoFail', () => {
+      test('should create an action', () => {
+        const payload = { message: 'RemoveTodoFail Error Message' };
+        const action = new todosActions.RemoveTodoFail(payload);
+
+        expect({ ...action }).toEqual({
+          type: todosActions.REMOVE_TODO_FAIL,
+          payload
+        });
+      });
+    });
+  });
 });
