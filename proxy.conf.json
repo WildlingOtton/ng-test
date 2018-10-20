@@ -1,7 +1,12 @@
 {
   "/todos": {
-      "target": "http://localhost:3000",
-      "secure": false,
-      "loglevel": "debug"
+    "target": "http://localhost:3000",
+    "secure": false,
+    "loglevel": "debug"
+  },
+  "/reset": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "loglevel": "debug"
   }
 }
